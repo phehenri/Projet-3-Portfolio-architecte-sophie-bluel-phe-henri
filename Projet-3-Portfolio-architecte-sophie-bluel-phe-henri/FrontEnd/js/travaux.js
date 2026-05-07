@@ -7,11 +7,11 @@ const categories = await reponseCategories.json();
 
 
 function genererTravaux(travaux){
+    // Récupération de l'élément du DOM div qui accueillera les travaux
+    const blocTravaux = document.querySelector(".gallery");
+
     for(let i=0; i < travaux.length;i++){
         const travail = travaux[i];
-
-        // Récupération de l'élément du DOM div qui accueillera les travaux
-        const blocTravaux = document.querySelector(".gallery");
 
         // Création d’une balise "figure" dédiée à un travail
         const elementTravaux = document.createElement("figure");
@@ -32,12 +32,34 @@ function genererTravaux(travaux){
 genererTravaux(travaux);
 
 function genererCategories(categories){
+    const blocFiltre = document.querySelector(".filtres-liste");
+
+    //bouton Tous
+    const elementBtnTous = document.createElement("li");
+    blocFiltre.appendChild(elementBtnTous);
+    const lienBtnTous = document.createElement("a");
+    lienBtnTous.innerText = "Tous";
+    lienBtnTous.href = "#";
+    lienBtnTous.classList.add("btnFiltreOff");
+    elementBtnTous.appendChild(lienBtnTous);
+
+    elementBtnTous.addEventListener("click", function (event) {
+        //bloque le chargement de la page
+        event.preventDefault();
+        document.querySelector(".gallery").innerHTML = "";
+        genererTravaux(travaux);
+        //rendre le filtre coloré
+        initialiseFiltre();
+        activeFiltre(event.target);
+    });
+
+
+
     for(let i=0; i < categories.length;i++){
-        //console.log("TEST " +categories[i].name);
+        //const qui va contenir le tableau de toute les categories recupérer avec le fetch
         const categorie = categories[i];
 
-        const blocFiltre = document.querySelector(".filtres-liste");
-
+        // pour chaque element du tableau on va créer un li, un a
         const elementCategories = document.createElement("li");
         blocFiltre.appendChild(elementCategories);
 
@@ -75,25 +97,17 @@ function genererCategories(categories){
 
 genererCategories(categories);
 
-function afficherTout(){
-    const btnToutAfficher = document.querySelector(".btnTous");
-    btnToutAfficher.addEventListener("click", function () {
-        //bloque le chargement de la page
-        event.preventDefault();
-        document.querySelector(".gallery").innerHTML = "";
-        genererTravaux(travaux);
-        //rendre le filtre coloré
-        initialiseFiltre();
-        activeFiltre(event.target);
-    });
-}
-afficherTout();
 
 function initialiseFiltre(){
     //mets la couleur de tous les filtres en couleur initial
     const filtres = document.querySelectorAll(".filtres-liste li a");
     filtres.forEach(el => el.classList.remove("btnFiltreOn"));
-    document.querySelector(".btnTous").classList.remove("btnFiltreOn");
+
+    const btnTous = document.querySelector(".btnTous");
+    // vérifier que le bouton btnTous est créer avant de lui retirer le filtre
+    if (btnTous) {
+        btnTous.classList.remove("btnFiltreOn");
+    }
 }
 function activeFiltre(eventVar){
     eventVar.classList.add("btnFiltreOn");
