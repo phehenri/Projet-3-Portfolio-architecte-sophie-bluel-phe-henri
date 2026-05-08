@@ -1,9 +1,18 @@
+const token = localStorage.getItem("token");
+if (token) {
+    console.log("Utilisateur connecté");
+    cacherFiltres();
+    afficherBtnModifier();
+
+} else {
+    console.log("Utilisateur non connecté");
+}
+
 const reponseTravaux = await fetch ('http://localhost:5678/api/works/');
 const travaux = await reponseTravaux.json();
 
 const reponseCategories = await fetch ('http://localhost:5678/api/categories/');
 const categories = await reponseCategories.json();
-
 
 
 function genererTravaux(travaux){
@@ -113,3 +122,11 @@ function activeFiltre(eventVar){
     eventVar.classList.add("btnFiltreOn");
     eventVar.classList.remove("btnFiltreOff");
 }
+
+function cacherFiltres(){
+   document.querySelector(".filtres").style.display = "none";
+}
+function afficherBtnModifier(){
+   document.querySelector(".btn-modifier").style.display = "block";
+}
+
