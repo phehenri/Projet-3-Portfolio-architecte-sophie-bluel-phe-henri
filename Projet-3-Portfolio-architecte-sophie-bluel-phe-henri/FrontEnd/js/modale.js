@@ -1,33 +1,54 @@
 const reponseTravaux = await fetch ('http://localhost:5678/api/works/');
 const travaux = await reponseTravaux.json();
+const blocModal = document.querySelector(".bloc-modale-overlay");
 
 //fonction afficher modale
 document.querySelector(".btn-modifier").addEventListener("click", function (event) {
     //bloque le chargement de la page
     event.preventDefault();
-    const blocModal = document.querySelector(".bloc-modale-overlay");
     blocModal.style.display="flex";
-    blocModal.setAttribute('aria-hidden','false');
-    blocModal.setAttribute('aria-modal','true'); 
+    afficherGalleryModalBloc();
 });
+
+document.querySelector(".btn-retour").addEventListener("click", afficherGalleryModalBloc);
 
 //fonction cacher modale 
 document.querySelector(".bloc-modale-overlay").addEventListener("click", closeModal);
 document.querySelector(".btn-croix-fermer-modal").addEventListener("click", closeModal);
+document.querySelector(".btn-croix-fermer-modal2").addEventListener("click", closeModal);
 
 document.querySelector(".stop-propagation").addEventListener("click", stopPropagation);
 
 function closeModal(event) {
     //bloque le chargement de la page
     event.preventDefault();
-    const blocModal = document.querySelector(".bloc-modale-overlay");
     blocModal.style.display="none";
-    blocModal.setAttribute('aria-hidden','true');
-    blocModal.setAttribute('aria-modal','false');
 };
 
 function stopPropagation (e){
     e.stopPropagation();
+}
+
+//fonction ajouter photo
+document.querySelector(".btn-modal-ajouter-photo").addEventListener("click", afficherAjouterPhotoBloc);
+function afficherAjouterPhotoBloc() {
+    afficherBloc(document.querySelector(".bloc-ajouter-photo"));
+    cacherBloc(document.querySelector(".galerie-modal"));
+};
+
+function afficherGalleryModalBloc() {
+    afficherBloc(document.querySelector(".galerie-modal"));
+    cacherBloc(document.querySelector(".bloc-ajouter-photo"));
+};
+
+function afficherBloc(bloc){
+    bloc.classList.add("visible");
+    bloc.classList.remove("hidden");
+}
+
+function cacherBloc(bloc){
+    bloc.classList.add("hidden");
+    bloc.classList.remove("visible");
 }
 
 function genererTravauxModal(travaux){

@@ -19,13 +19,37 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <div class="bloc-admin"><p>Mode édition</p></div>
-<aside class="bloc-modale-overlay" aria-hidden="true" role="dialog" aria-modal="false">
+<aside class="bloc-modale-overlay">
 	<div class="bloc-modale stop-propagation">
-		<i class="fa-solid fa-xmark fa-lg btn-croix-fermer-modal"></i>
-		<h3>Galerie Photo</h3>
-		<div class="bloc-travaux-modale">
-		</div><hr>		
-		<input class="btn-modale" type="button" value="Ajouter une photo" />
+		<div class="galerie-modal visible">
+			<i class="fa-solid fa-xmark fa-lg btn-croix-fermer-modal"></i>
+			<h3>Galerie Photo</h3>
+			<div class="bloc-travaux-modale">
+			</div><hr>		
+			<input class="btn-modal-ajouter-photo" type="button" value="Ajouter une photo" />
+		</div>
+		<div class="bloc-ajouter-photo hidden">
+			<div class="bloc-ajouter-photo-btn">
+				<i class="fa-solid fa-arrow-left btn-retour"></i>
+				<i class="fa-solid fa-xmark fa-lg btn-croix-fermer-modal2"></i>
+			</div>
+			<div class="bloc-ajouter-photo-contenant">
+				<h3>Ajout Photo</h3>
+				<div class="bloc-upload">
+					<img src=".." alt=".." />
+					<input class="" type="button" value="+ Ajouter photo"/>
+				</div>
+					
+				<form action="#" method="post">
+					<label for="title">Titre</label>
+					<input type="text" name="title" id="title">
+					<select name="categorie" id="categorie">
+					</select>
+				</form>
+				<hr>
+				<input type="submit" value="Valider">
+			</div>
+		</div>
 	</div>
 </aside>
 <header>
