@@ -2,6 +2,9 @@ const reponseTravaux = await fetch ('http://localhost:5678/api/works/');
 const travaux = await reponseTravaux.json();
 const blocModal = document.querySelector(".bloc-modale-overlay");
 
+const reponseCategories = await fetch ('http://localhost:5678/api/categories/');
+const categories = await reponseCategories.json();
+
 //fonction afficher modale
 document.querySelector(".btn-modifier").addEventListener("click", function (event) {
     //bloque le chargement de la page
@@ -26,6 +29,7 @@ function closeModal(event) {
 };
 
 function stopPropagation (e){
+    // pour eviter que au clic de la modale elle se ferme. juste au clic du overlay, on doit fermer. ou bouton dédié.
     e.stopPropagation();
 }
 
@@ -92,3 +96,22 @@ genererTravauxModal(travaux);
 function supprimerTravaux(event){
 
 }
+
+function listeCategorieForm(){
+    const inputSelect = document.querySelector("#categorie");
+
+    console.log(inputSelect.value);
+        for(let i=0; i < categories.length;i++){
+            //const qui va contenir le tableau de toute les categories recupérer avec le fetch
+            const categorie = categories[i];
+
+            // pour chaque element du tableau on va créer une balise option et attribuer les valeurs name
+            const optionCategories = document.createElement("option");
+            optionCategories.value=categorie.name;
+            optionCategories.innerText=categorie.name;
+            inputSelect.appendChild(optionCategories);
+
+    }
+
+}
+listeCategorieForm();

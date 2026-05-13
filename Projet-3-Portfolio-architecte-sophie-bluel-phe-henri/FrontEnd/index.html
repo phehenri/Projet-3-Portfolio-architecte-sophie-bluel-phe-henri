@@ -22,7 +22,9 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 <aside class="bloc-modale-overlay">
 	<div class="bloc-modale stop-propagation">
 		<div class="galerie-modal visible">
-			<i class="fa-solid fa-xmark fa-lg btn-croix-fermer-modal"></i>
+			<div class="bloc-modal-btn">
+				<i class="fa-solid fa-xmark fa-lg btn-croix-fermer-modal"></i>
+			</div>
 			<h3>Galerie Photo</h3>
 			<div class="bloc-travaux-modale">
 			</div><hr>		
@@ -36,18 +38,22 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 			<div class="bloc-ajouter-photo-contenant">
 				<h3>Ajout Photo</h3>
 				<div class="bloc-upload">
-					<img src=".." alt=".." />
-					<input class="" type="button" value="+ Ajouter photo"/>
+					<img src="./img/icone-upload.png" alt="icone upload" />
+					<input class="btn-modal-ajouter-photo2"  type="button" value="+ Ajouter photo"/>
+					<span>jpg, png : 4mo max</span>
 				</div>
 					
-				<form action="#" method="post">
+				<form id="form-ajout-photo" action="#" method="post">
 					<label for="title">Titre</label>
 					<input type="text" name="title" id="title">
+					
+					<label for="categorie">Catégorie</label>
 					<select name="categorie" id="categorie">
 					</select>
+					<hr>
+					<input class="btn-valider" type="button" value="Valider">
 				</form>
-				<hr>
-				<input type="submit" value="Valider">
+				
 			</div>
 		</div>
 	</div>
@@ -95,7 +101,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 			<input type="email" name="email" id="email">
 			<label for="message">Message</label>
 			<textarea name="message" id="message" cols="30" rows="10"></textarea>
-			<input type="submit" value="Envoyer">
+			<input class="btn-envoyer" type="submit" value="Envoyer">
 		</form>
 	</section>
 </main>
