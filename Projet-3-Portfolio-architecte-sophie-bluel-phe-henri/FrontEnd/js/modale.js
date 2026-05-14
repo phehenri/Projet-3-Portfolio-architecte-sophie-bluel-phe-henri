@@ -1,3 +1,5 @@
+import { genererTravaux } from "./travaux.js";
+
 const reponseTravaux = await fetch ('http://localhost:5678/api/works/');
 const travaux = await reponseTravaux.json();
 const blocModal = document.querySelector(".bloc-modale-overlay");
@@ -66,12 +68,12 @@ function genererTravauxModal(travaux){
         const elementTravaux = document.createElement("figure");
         elementTravaux.classList.add("figure-travaux-modal");
 
-
         //création balise corbeille
         const corbeille = document.createElement("img");
         corbeille.classList.add("corbeille");
         corbeille.src = "img/corbeille.png";
         corbeille.addEventListener("click",supprimerTravaux);
+        corbeille.dataset.id = travail.id;
 
         // Création des balises informations d'un travail
         const imageTravaux = document.createElement("img");
@@ -88,13 +90,36 @@ function genererTravauxModal(travaux){
         //elementTravaux.appendChild(titreTravaux);
         blocTravaux.appendChild(elementTravaux);
 
-        
     }
 }
 genererTravauxModal(travaux);
 
-function supprimerTravaux(event){
+async function supprimerTravaux(event){
+    const idTravauxClic = event.target.dataset.id;
+    const token = localStorage.getItem("token");
 
+    console.log("log"+`http://localhost:5678/api/works/${idTravauxClic}`);
+
+     try {
+        const response = await fetch(`http://localhost:5678/api/works/${idTravauxClic}`, {
+            method: "DELETE",
+            headers: {
+            "Authorization": `Bearer ${token}`
+        }
+        });
+        if(response.ok){
+            console.log("Travail supprimé");
+            //lancer fonction pour mettre à jour les travaux
+            genererTravaux(travaux);
+            genererTravauxModal(travaux);
+
+        } else {
+            console.log("Erreur suppression");
+        }
+
+    } catch(error) {
+        console.error("error.message "+error.message);
+    }
 }
 
 function listeCategorieForm(){
@@ -115,3 +140,12 @@ function listeCategorieForm(){
 
 }
 listeCategorieForm();
+
+
+document.querySelector(".btn-valider").addEventListener("click", ajouterPhoto);
+function ajouterPhoto(event){
+    //get id btn-valider
+    // add event listener au clic du bouton on envoi les données
+    //recupere les données des champs renseignés. verifie que ce n'est pas null
+    // envoi ces donnees fetch
+}

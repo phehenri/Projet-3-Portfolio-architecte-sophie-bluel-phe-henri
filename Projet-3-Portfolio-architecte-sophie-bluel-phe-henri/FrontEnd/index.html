@@ -37,13 +37,18 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 			</div>
 			<div class="bloc-ajouter-photo-contenant">
 				<h3>Ajout Photo</h3>
-				<div class="bloc-upload">
-					<img src="./img/icone-upload.png" alt="icone upload" />
-					<input class="btn-modal-ajouter-photo2"  type="button" value="+ Ajouter photo"/>
-					<span>jpg, png : 4mo max</span>
-				</div>
+				
 					
 				<form id="form-ajout-photo" action="#" method="post">
+					<div class="bloc-upload">
+						<img src="./img/icone-upload.png" alt="icone upload" />
+						<label class="btn-modal-ajouter-photo2" class="upload-btn">
+							+ Ajouter photo
+							<input type="file" name="image" accept="image/png, image/jpeg" value="+ Ajouter photo" hidden>
+						</label>
+						<!--<input class="btn-modal-ajouter-photo2"  type="button" value="+ Ajouter photo"/>-->
+						<span>jpg, png : 4mo max</span>
+					</div>
 					<label for="title">Titre</label>
 					<input type="text" name="title" id="title">
 					

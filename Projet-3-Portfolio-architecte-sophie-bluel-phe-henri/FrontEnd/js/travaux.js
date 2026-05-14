@@ -15,7 +15,7 @@ const reponseCategories = await fetch ('http://localhost:5678/api/categories/');
 const categories = await reponseCategories.json();
 
 
-function genererTravaux(travaux){
+export function genererTravaux(travaux){
     // Récupération de l'élément du DOM div qui accueillera les travaux
     const blocTravaux = document.querySelector(".gallery");
 
@@ -60,9 +60,7 @@ function genererCategories(categories){
         //rendre le filtre coloré
         initialiseFiltre();
         activeFiltre(event.target);
-    });
-
-
+    })
 
     for(let i=0; i < categories.length;i++){
         //const qui va contenir le tableau de toute les categories recupérer avec le fetch
