@@ -37,28 +37,34 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 			</div>
 			<div class="bloc-ajouter-photo-contenant">
 				<h3>Ajout Photo</h3>
-				
 					
-				<form id="form-ajout-photo" action="#" method="post">
+				<form id="form-ajout-photo" action="#" method="post" name="form-ajout-photo">
 					<div class="bloc-upload">
-						<img src="./img/icone-upload.png" alt="icone upload" />
-						<label class="btn-modal-ajouter-photo2" class="upload-btn">
-							+ Ajouter photo
-							<input type="file" name="image" accept="image/png, image/jpeg" value="+ Ajouter photo" hidden>
-						</label>
-						<!--<input class="btn-modal-ajouter-photo2"  type="button" value="+ Ajouter photo"/>-->
-						<span>jpg, png : 4mo max</span>
+						<div class="image-onload"></div>
+						<div class="bloc-upload-fields">
+							<img src="./img/icone-upload.png" alt="icone upload" />
+							<label class="btn-modal-ajouter-photo2 upload-btn">
+								<span>+ Ajouter photo</span>
+								<input class="input-ajouter-photo" type="file" name="image" accept="image/png, image/jpeg" value="+ Ajouter photo" hidden>
+							</label>
+							<!--<input class="btn-modal-ajouter-photo2"  type="button" value="+ Ajouter photo"/>-->
+							<span>jpg, png : 4mo max</span>
+						</div>
 					</div>
 					<label for="title">Titre</label>
 					<input type="text" name="title" id="title">
 					
 					<label for="categorie">Catégorie</label>
-					<select name="categorie" id="categorie">
+					<select name="category" id="category">
 					</select>
 					<hr>
-					<input class="btn-valider" type="button" value="Valider">
+					<div class="output-bloc">
+						<span class="output-text"></span>
+					</div>
+					<input class="btn-valider" type="submit" value="Valider">
 				</form>
 				
+
 			</div>
 		</div>
 	</div>

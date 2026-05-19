@@ -13,6 +13,8 @@ document.querySelector(".btn-modifier").addEventListener("click", function (even
     event.preventDefault();
     blocModal.style.display="flex";
     afficherGalleryModalBloc();
+    // initialise le bloc text qui va nous servir plus tard pour le bloc ajouter nouveau travaux
+    document.querySelector(".output-text").innerText="";
 });
 
 document.querySelector(".btn-retour").addEventListener("click", afficherGalleryModalBloc);
@@ -28,6 +30,8 @@ function closeModal(event) {
     //bloque le chargement de la page
     event.preventDefault();
     blocModal.style.display="none";
+     // initialise le bloc text qui va nous servir plus tard pour le bloc ajouter nouveau travaux
+    document.querySelector(".output-text").innerText="";
 };
 
 function stopPropagation (e){
@@ -45,6 +49,8 @@ function afficherAjouterPhotoBloc() {
 function afficherGalleryModalBloc() {
     afficherBloc(document.querySelector(".galerie-modal"));
     cacherBloc(document.querySelector(".bloc-ajouter-photo"));
+     // initialise le bloc text qui va nous servir plus tard pour le bloc ajouter nouveau travaux
+    document.querySelector(".output-text").innerText="";
 };
 
 function afficherBloc(bloc){
@@ -60,6 +66,7 @@ function cacherBloc(bloc){
 function genererTravauxModal(travaux){
     // Récupération de l'élément du DOM div qui accueillera les travaux
     const blocTravaux = document.querySelector(".bloc-travaux-modale");
+    blocTravaux.innerHTML = "";
 
     for(let i=0; i < travaux.length;i++){
         const travail = travaux[i];
@@ -79,9 +86,6 @@ function genererTravauxModal(travaux){
         const imageTravaux = document.createElement("img");
         imageTravaux.classList.add("imageTravauxModal");
         imageTravaux.src = travail.imageUrl;
-
-       // const titreTravaux = document.createElement("figcaption");
-        //titreTravaux.innerText = travail.title;
 
         // Rattache balise elementTr
         elementTravaux.appendChild(corbeille);
@@ -109,9 +113,12 @@ async function supprimerTravaux(event){
         });
         if(response.ok){
             console.log("Travail supprimé");
+            const reponse = await fetch('http://localhost:5678/api/works/');
+            const nouveauxTravaux = await reponse.json();
             //lancer fonction pour mettre à jour les travaux
-            genererTravaux(travaux);
-            genererTravauxModal(travaux);
+            genererTravaux(nouveauxTravaux);
+            genererTravauxModal(nouveauxTravaux);
+
 
         } else {
             console.log("Erreur suppression");
@@ -123,7 +130,7 @@ async function supprimerTravaux(event){
 }
 
 function listeCategorieForm(){
-    const inputSelect = document.querySelector("#categorie");
+    const inputSelect = document.querySelector("#category");
 
     console.log(inputSelect.value);
         for(let i=0; i < categories.length;i++){
@@ -132,20 +139,82 @@ function listeCategorieForm(){
 
             // pour chaque element du tableau on va créer une balise option et attribuer les valeurs name
             const optionCategories = document.createElement("option");
-            optionCategories.value=categorie.name;
+            optionCategories.value=categorie.id;
             optionCategories.innerText=categorie.name;
             inputSelect.appendChild(optionCategories);
-
     }
-
 }
 listeCategorieForm();
 
 
-document.querySelector(".btn-valider").addEventListener("click", ajouterPhoto);
-function ajouterPhoto(event){
-    //get id btn-valider
-    // add event listener au clic du bouton on envoi les données
-    //recupere les données des champs renseignés. verifie que ce n'est pas null
-    // envoi ces donnees fetch
+document.querySelector(".input-ajouter-photo").addEventListener("change", afficherUploadPhoto);
+function afficherUploadPhoto(event){
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const bloc_img_onload = document.querySelector(".image-onload");
+
+    // nettoyer ancienne image
+    bloc_img_onload.innerHTML = "";
+
+    // créer img
+    const img_onload = document.createElement("img");
+
+    // source preview
+    img_onload.src = URL.createObjectURL(file);
+
+    // style optionnel
+    img_onload.style.height = "100%";
+    img_onload.style.position = "absolute";
+    img_onload.style.top = "0";
+    img_onload.style.left = "0";
+
+    // ajouter au DOM
+    bloc_img_onload.appendChild(img_onload);
+
+    //Cacher les boutons
+    document.querySelector(".bloc-upload-fields").style.visibility = "hidden";
 }
+
+const form = document.forms.namedItem("form-ajout-photo");
+form.addEventListener(
+  "submit",
+  async (event) => {
+    event.preventDefault();
+    //on récupère la balise qui va afficher le message erreur
+    const output = document.querySelector("#output");
+    const token = localStorage.getItem("token");
+    const formData = new FormData(form);
+
+     try {
+        const response = await fetch(`http://localhost:5678/api/works`, {
+            method: "POST",
+            headers: {
+            "Authorization": `Bearer ${token}`
+            },
+            body: formData,
+        });
+        if(response.ok){
+            console.log("OK");
+            form.reset();
+            document.querySelector(".bloc-upload-fields").style.visibility = "visible";
+            document.querySelector(".image-onload").innerHTML="";
+            document.querySelector(".output-text").innerText="Le travail a été envoyé correctement !";
+            const reponse = await fetch('http://localhost:5678/api/works/');
+            const nouveauxTravaux = await reponse.json();
+            //lancer fonction pour mettre à jour les travaux
+            genererTravaux(nouveauxTravaux);
+            genererTravauxModal(nouveauxTravaux);
+        } else {
+            console.log("Erreur ajout");
+            document.querySelector(".output-text").innerText="Erreur lors de l'envoi.";
+
+        }
+
+    } catch(error) {
+        console.error("error.message "+error.message);
+    }
+  },
+  false,
+);

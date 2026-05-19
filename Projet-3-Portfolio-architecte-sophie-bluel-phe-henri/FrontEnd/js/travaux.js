@@ -18,6 +18,7 @@ const categories = await reponseCategories.json();
 export function genererTravaux(travaux){
     // Récupération de l'élément du DOM div qui accueillera les travaux
     const blocTravaux = document.querySelector(".gallery");
+    blocTravaux.innerHTML = "";
 
     for(let i=0; i < travaux.length;i++){
         const travail = travaux[i];
