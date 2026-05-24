@@ -17,10 +17,8 @@ function ajoutListenerConnexion() {
 
         // Création de l’objet de l'user.
         const user = {
-            email: "sophie.bluel@test.tld",
-            password: "S0phie"
-           /*email: event.target.querySelector("[name=email]").value,
-            password: event.target.querySelector("[name=motdepasse]").value*/
+            email: event.target.querySelector("[name=email]").value,
+            password: event.target.querySelector("[name=motdepasse]").value
         };
         // Création de la charge utile au format JSON
         const chargeUtile = JSON.stringify(user);
