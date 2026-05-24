@@ -1,16 +1,13 @@
-import { genererTravaux } from "./travaux.js";
+// importer fonction et variables qui vont être réutiliser ici
+import { genererTravaux, travaux, categories } from "./travaux.js";
 
-const reponseTravaux = await fetch ('http://localhost:5678/api/works/');
-const travaux = await reponseTravaux.json();
 const blocModal = document.querySelector(".bloc-modale-overlay");
 
-const reponseCategories = await fetch ('http://localhost:5678/api/categories/');
-const categories = await reponseCategories.json();
-
-//fonction afficher modale
+//fonction afficher la modale au clic du bouton "modifier"
 document.querySelector(".btn-modifier").addEventListener("click", function (event) {
     //bloque le chargement de la page
     event.preventDefault();
+    
     blocModal.style.display="flex";
     afficherGalleryModalBloc();
     // initialise le bloc text qui va nous servir plus tard pour le bloc ajouter nouveau travaux
@@ -32,6 +29,11 @@ function closeModal(event) {
     blocModal.style.display="none";
      // initialise le bloc text qui va nous servir plus tard pour le bloc ajouter nouveau travaux
     document.querySelector(".output-text").innerText="";
+    // initialise le bloc ajout photo
+    form.reset();
+    document.querySelector(".bloc-upload-fields").style.visibility = "visible";
+    document.querySelector(".image-onload").innerHTML="";
+
 };
 
 function stopPropagation (e){
@@ -200,7 +202,7 @@ form.addEventListener(
             form.reset();
             document.querySelector(".bloc-upload-fields").style.visibility = "visible";
             document.querySelector(".image-onload").innerHTML="";
-            document.querySelector(".output-text").innerText="Le travail a été envoyé correctement !";
+            document.querySelector(".output-text").innerText="Le projet a été envoyé correctement !";
             const reponse = await fetch('http://localhost:5678/api/works/');
             const nouveauxTravaux = await reponse.json();
             //lancer fonction pour mettre à jour les travaux
@@ -208,6 +210,7 @@ form.addEventListener(
             genererTravauxModal(nouveauxTravaux);
         } else {
             console.log("Erreur ajout");
+            console.log("Reponse "+response.status);
             document.querySelector(".output-text").innerText="Erreur lors de l'envoi.";
 
         }
@@ -218,3 +221,28 @@ form.addEventListener(
   },
   false,
 );
+
+form.addEventListener("input",checkFormPhoto);
+form.addEventListener("change",checkFormPhoto);
+const btnValider = document.querySelector(".btn-valider");
+
+const inputFile = form.querySelector(".input-ajouter-photo");
+const inputTitle = form.querySelector("#title");
+const selectCategory = form.querySelector("#category");
+
+function checkFormPhoto(){
+console.log("champs");
+if (
+    inputFile.files.length > 0 &&
+    inputTitle.value.trim() !== "" &&
+    selectCategory.value !== ""
+) {
+    btnValider.disabled = false;
+    btnValider.style.cursor = "Pointer";
+    btnValider.style.backgroundColor = "#1D6154";
+} else {
+    btnValider.disabled = true;
+    btnValider.style.cursor = "not-allowed";
+    btnValider.style.backgroundColor = "#A7A7A7";
+}
+}

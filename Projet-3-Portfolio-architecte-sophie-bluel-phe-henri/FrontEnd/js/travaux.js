@@ -8,11 +8,18 @@ if (token) {
     console.log("Utilisateur non connecté");
 }
 
-const reponseTravaux = await fetch ('http://localhost:5678/api/works/');
-const travaux = await reponseTravaux.json();
+// promise.all pour lancer les deux fetch en parallele
+const responses = await Promise.all([
+  fetch('http://localhost:5678/api/works/'),
+  fetch('http://localhost:5678/api/categories/')
+]);
 
-const reponseCategories = await fetch ('http://localhost:5678/api/categories/');
-const categories = await reponseCategories.json();
+const reponseTravaux = responses[0];
+const reponseCategories = responses[1];
+
+// transformation en JSON
+export const travaux = await reponseTravaux.json();
+export const categories = await reponseCategories.json();
 
 
 export function genererTravaux(travaux){
@@ -50,7 +57,7 @@ function genererCategories(categories){
     const lienBtnTous = document.createElement("a");
     lienBtnTous.innerText = "Tous";
     lienBtnTous.href = "#";
-    lienBtnTous.classList.add("btnFiltreOff");
+    lienBtnTous.classList.add("btnFiltreOn");
     elementBtnTous.appendChild(lienBtnTous);
 
     elementBtnTous.addEventListener("click", function (event) {

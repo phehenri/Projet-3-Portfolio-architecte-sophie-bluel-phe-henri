@@ -3,6 +3,13 @@
    License: none (public domain)
 */
 
+
+:root {
+    --main-color: #0065FC;
+    --main-bg-color: #F2F2F2;
+    --green: #1D6154;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -69,7 +76,7 @@ h1{
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
-	color: #B1663C
+	color: #B1663C;
 }
 
 h1 > span {
@@ -83,7 +90,7 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: var(--green);
 }
 nav ul {
 	display: flex;
@@ -214,7 +221,6 @@ input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
-	background-color: #1D6154;
 	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
@@ -247,7 +253,7 @@ footer nav ul {
 }
 
 .filtres-liste li a{
-	border: 1px solid #1D6154;
+	border: 1px solid var(--green);
     border-radius: 60px;
     padding-left: 20px;
     padding-right: 20px;
@@ -257,7 +263,7 @@ footer nav ul {
 	font-size: 16px;
 	font-weight: 700;
 	text-decoration: none;
-	color: #1D6154;
+	color: var(--green);
 }
 
 .filtres{
@@ -265,17 +271,19 @@ footer nav ul {
 }
 
 .btnFiltreOn{
-	background-color : #1D6154;
+	background-color : var(--green);
 	color : white !important;
 }
 
 .btnFiltreOff{
 	background-color : white;
-	color : #1D6154;
+	color : var(--green);
 }
 
 .message-error{
 	color:red;
+	margin: auto;
+	margin-top: 15px;
 }
 .bloc-admin{
 	background-color: #000000;
@@ -359,7 +367,8 @@ footer nav ul {
 
 }
 .btn-modal-ajouter-photo{
-	background-color: #1D6154;
+	font-family: 'Syne';
+	background-color: var(--green);
 	color: white;
 	border: 0px;
 	width: 237px;
@@ -458,22 +467,45 @@ hr {
 	text-align: center;
 }
 
-.btn-connecter, .btn-envoyer, .btn-valider{
+.btn-connecter, .btn-envoyer{
 	cursor: pointer;
+	background-color: var(--green);
+	color: white;
 }
 .btn-valider{
-	margin: auto;	background-color: #A7A7A7;
+	margin: auto;	
+	background-color: #A7A7A7;
 	color: white;
 	border: 0px;
 	width: 237px;
 	height: 36px !important;
 	border-radius: 60px;
 	font-size: 14px;
-	cursor: pointer;
+	cursor: not-allowed;
 }
 
 .image-onload img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+.portfolio-header{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	margin-bottom: 1em;
+}
+.portfolio-header h2 {
+	margin: 0;
+	text-align: center;
+}
+.btn-modifier {
+	font-size: 14px;
+	color: #000;
+	text-decoration: underline;
+}
+.btn-modifier i {
+	margin-right: 6px;
 }
